@@ -6,7 +6,7 @@ class Notification{
 	public $version = "1.0.0";
 	public $pusherContext = "/notif/1.0.0/pusher";
 	public $removerContext = "/notif/1.0.0/remover";
-	public $serverAddress = "push.planetedu.id";
+	public $serverAddress = "push.example.com";
 	public $serverPort = 94;
 	public $protocol = "http";
 	public function createHeader($apiKey = NULL, $password = NULL, $group = NULL)
