@@ -1,7 +1,7 @@
 <?php
 include "notif/notif.php";
-$notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "push.example.com", 95, "https");
-//$notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "push.example.com", 94, "http");
+//$notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "push.example.com", 93, "https");
+$notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "push.example.com", 94, "http");
 $miscData = array('nama'=>'Kamshory', 'alamat'=>'Jakarta Barat', 'telpon'=>'081111111111');
 $msg = array
 (
