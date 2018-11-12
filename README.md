@@ -121,6 +121,6 @@ $registrationIds = array("41fda1bcf6486301", "41fda1bcf6486302", "41fda1bcf64863
 $inserted = $notif->push($registrationIds, $msg); 
 $deleted = $notif->remove($inserted);
 echo "INSERTED = $inserted<br>\r\n";
-echo "REMOVED = $inserted<br>\r\n";
+echo "REMOVED = $deleted<br>\r\n";
 ?>
 ```
