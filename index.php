@@ -28,7 +28,7 @@ $inserted = $notif->push($registrationIds, $msg);
 
 //$deleted = $notif->remove($inserted);
 echo "INSERTED = $inserted<br>\r\n";
-//echo "REMOVED = $inserted<br>\r\n";
+//echo "REMOVED = $deleted<br>\r\n";
 
 
 // SELECT left(time_create, 19) as created, count(*) as num FROM `notification` WHERE 1 group by created order by num desc
