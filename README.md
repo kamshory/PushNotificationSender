@@ -98,6 +98,8 @@ Array object. Each object contains notification ID and device ID
 <?php
 include "notif/notif.php";
 $notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "push.example.com", 94, "http");
+// or 
+// $notif = new Notification("PLANETBIRU", "0987654321", "1234567890S", "1.0.0", "http://push.example.com:94");
 $miscData = array('nama'=>'Kamshory', 'alamat'=>'Jakarta Barat', 'telpon'=>'081111111111');
 $msg = array
 (
