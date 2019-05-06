@@ -33,7 +33,7 @@ class Notification{
 		);
 		return $headers;
 	}
-	public function __construct($apiKey = NULL, $password = NULL, $group = NULL, $version = NULL, $serverAddress = NULL, $serverPort = NULL, $protocol = NULL)
+	public function __construct($apiKey = NULL, $password = NULL, $version = NULL, $serverAddress = NULL, $serverPort = NULL, $protocol = NULL)
 	{
 		if($apiKey !== NULL)
 		{
@@ -43,17 +43,37 @@ class Notification{
 		{
 			$this->password = $password;
 		}
-		if($group != NULL)
-		{
-			$this->group = $group;
-		}
 		if($version !== NULL)
 		{
 			$this->version = $version;
 		}
 		if($serverAddress !== NULL)
 		{
-			$this->serverAddress = $serverAddress;
+			if(stripos($serverAddress, "://") !== false)
+			{
+				$parsed = parse_url($serverAddress);
+				$this->protocol = $parsed['scheme'];
+				$this->serverAddress = $parsed['host'];
+				if(isset($parsed['port']))
+				{
+					$this->serverPort = $parsed['port'];
+				}
+				else
+				{
+					if($this->protocol == 'https')
+					{
+						$this->serverPort = 443;
+					}
+					else
+					{
+						$this->serverPort = 80;
+					}
+				}
+			}
+			else
+			{
+				$this->serverAddress = $serverAddress;
+			}
 		}
 		if($serverPort !== NULL)
 		{
