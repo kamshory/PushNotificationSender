@@ -24,6 +24,8 @@ $notif = new Notification($apiKey, $apiPassword, $groupKey, $apiVersion, $server
 ### $serverAddress
 **serverAddress** is the address of the server. Server address can be IP Address, domain or subdomain of the notification server.
 
+**serverAddress** can be full URL which contains protocol, server host and server port. For example https://example.com:5555
+
 ### $serverPort
 **serverPort** is the server port of the notification server.
 
