@@ -24,15 +24,22 @@ $msg = array
 
 
 $registrationIds = array("41fda1bcf6486301", "41fda1bcf6486302", "41fda1bcf6486303");
-$inserted = $notif->push($registrationIds, $msg); 
-
-//$deleted = $notif->remove($inserted);
-echo "INSERTED = $inserted<br>\r\n";
-//echo "REMOVED = $deleted<br>\r\n";
-
-
-// SELECT left(time_create, 19) as created, count(*) as num FROM `notification` WHERE 1 group by created order by num desc
-
-
+$response = $notif->push($registrationIds, $msg); 
+header("Content-Type: application/json");
+if($response['success'])
+{
+	$inserted = json_encode($response['data']);
+	
+	//$deleted = $notif->remove($inserted);
+	echo $inserted;
+	//echo "REMOVED = $deleted<br>\r\n";
+	
+	
+	// SELECT left(time_create, 19) as created, count(*) as num FROM `notification` WHERE 1 group by created order by num desc
+}
+else
+{
+	echo $response['message'];
+}
 
 ?>
