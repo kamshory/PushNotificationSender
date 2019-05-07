@@ -6,9 +6,12 @@ class Notification{
 	public $version = "1.0.0";
 	public $pusherContext = "/notif/1.0.0/pusher";
 	public $removerContext = "/notif/1.0.0/remover";
+	public $createGroupContext = "/notif/1.0.0/create-group";
 	public $serverAddress = "push.example.com";
 	public $serverPort = 94;
 	public $protocol = "http";
+	public $appName = "Push Notification";
+	public $appVersion = "1.0.0";
 	public function createHeader($apiKey = NULL, $password = NULL, $group = NULL)
 	{
 		if($apiKey != NULL)
@@ -28,7 +31,9 @@ class Notification{
 		$hash = sha1(sha1($this->password)."-".$token."-".$this->apiKey); 
 		$headers = array
 		(
-			"Authorization: key=".$this->apiKey."&token=".$token."&hash=".$hash."&time=".$time."&group=".urlencode($this->group),
+			"X-Authorization: key=".$this->apiKey."&token=".$token."&hash=".$hash."&time=".$time."&group=".urlencode($this->group),
+			"X-Application-Name: ".$this->appName,
+			"X-Application-Version: ".$this->appVersion,
 			"Content-Type: application/json"
 		);
 		return $headers;
@@ -104,12 +109,31 @@ class Notification{
 		curl_setopt($ch, CURLOPT_URL, $this->protocol."://".$this->serverAddress.":".$this->serverPort.$this->pusherContext);
 		curl_setopt($ch, CURLOPT_POST, true );
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers );
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Planet Notification Pusher');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $data ) );
-		$result = curl_exec($ch );
-		echo curl_error($ch);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $data ) );		
+		$response = curl_exec($ch);
+		$err = curl_error($ch);
 		curl_close( $ch );
+		$result = array();
+		if(!$err)
+		{
+			$result = array(
+				'success'=>true,
+				'data'=>json_decode($response),
+				'message'=>''
+				);
+		}
+		else
+		{
+			$result = array(
+				'success'=>false,
+				'data'=>null,
+				'message'=>$err
+				);
+		}
+		
 		return $result;
 	}
 	public function remove($data)
@@ -123,11 +147,69 @@ class Notification{
 		curl_setopt($ch, CURLOPT_URL, $this->protocol."://".$this->serverAddress.":".$this->serverPort.$this->removerContext);
 		curl_setopt($ch, CURLOPT_POST, true );
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers );
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Planet Notification Pusher');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $data ) );
-		$result = curl_exec($ch );
+		$response = curl_exec($ch);
+		$err = curl_error($ch);
 		curl_close( $ch );
+		$result = array();
+		if(!$err)
+		{
+			$result = array(
+				'success'=>true,
+				'data'=>json_decode($response),
+				'message'=>''
+				);
+		}
+		else
+		{
+			$result = array(
+				'success'=>false,
+				'data'=>null,
+				'message'=>$err
+				);
+		}
+		
+		return $result;
+	}
+	public function createGroup($data)
+	{
+		if(is_scalar($data))
+		{
+			$data = json_decode($data);
+		}
+		$headers = $this->createHeader();
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $this->protocol."://".$this->serverAddress.":".$this->serverPort.$this->createGroupContext);
+		curl_setopt($ch, CURLOPT_POST, true );
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers );
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Planet Notification Pusher');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $data ) );
+		$response = curl_exec($ch);
+		$err = curl_error($ch);
+		curl_close( $ch );
+		$result = array();
+		if(!$err)
+		{
+			$result = array(
+				'success'=>true,
+				'data'=>json_decode($response),
+				'message'=>''
+				);
+		}
+		else
+		{
+			$result = array(
+				'success'=>false,
+				'data'=>null,
+				'message'=>$err
+				);
+		}
+		
 		return $result;
 	}
 }
